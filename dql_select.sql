@@ -150,3 +150,50 @@ select * from (select * from inventario_producto where Cantidad_Stock > 1000) as
 -- 50. Mostrar el nombre de los productos.
 select id, Nombre, Cantidad from (select Inventario_producto.id as "id",Cantidad_stock as "Cantidad" ,productos.Nombre as "Nombre" from Inventario_producto inner join productos on inventario_producto.id = productos.id_inventario_producto) as obtener;
 
+-- 51  mostrar la tabla productos
+
+select * from productos;
+
+-- 52 mostrar los productos y el total de ventas que ha tenido ordenando de mayor a menor
+
+select productos.nombre, count(id_producto) as cantidad from ventas inner join productos on ventas.id_producto = productos.id group by 1 order by 2 desc;
+
+-- 53  mostrar los productos con precio mayor a 20000
+ 
+select nombre, Precio_Unidad from productos where Precio_Unidad > 20000;
+ 
+ -- 54 mostrar los productos con precio mayor a 10000
+  
+select nombre, Precio_Unidad from productos where Precio_Unidad < 10000;
+ 
+-- 55 mostrar los productos entre 10000 y 20000
+select nombre, Precio_Unidad from productos where Precio_Unidad between  10000 and 20000 ;
+  
+-- 56 muestra los productos de kg
+  
+select nombre , contenido from  productos  where contenido = '1 kg';
+  
+-- 57 muestra los productos  de  250 gramos
+  
+select nombre , contenido from  productos  where contenido = '250g';
+    
+-- 58 muestra los productos  de  500 gramos
+    
+select nombre , contenido from  productos  where contenido = '500g';
+        
+-- 59 muestra los productos  de  250 ml
+    
+select nombre , contenido from  productos  where contenido = '250ml';
+     
+-- 60 muetre los datos de la tabla de transportes
+
+select * from Transporte ;
+
+
+-- 61  muestre el vehiculo y la ruta del producto.
+
+select ventas.id_Producto, Modelo, Ruta from ventas inner join transporte on ventas.id_transporte = transporte.id inner join ruta on transporte.id_Ruta = ruta.id where ventas.id_transporte is null;
+
+-- 62. Todas las ventas que tengan transporte nulo.
+select count(id) from ventas where id_transporte is null;
+
