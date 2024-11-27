@@ -21,7 +21,7 @@ begin
 end
 // Delimiter ;
 
-call CalcularVenta(1,@Salida);
+call CalcularVenta(2,@Salida);
 select @salida as NuevoValor;
 
 -- 3. Cambiar el estado de las maquinas.
@@ -71,7 +71,8 @@ end//
 call CambiarEstadoEmpleado(1,3);
 
 -- 5. Agregar un nuevo empleado.
-drop Procedure if exists AgregarEmpleado;
+drop Procedure  if exists AgregarEmpleado;
+
 Delimiter //
 create procedure AgregarEmpleado(in Nombre1 varchar(30), in Nombre2 varchar(30), in Apellido1 varchar(30), in Apellido2 varchar(30), in Cargo varchar(100), in Telefono bigint, in Direccion varchar(50), in Cedula bigint, in Email varchar(100))
 begin
@@ -288,15 +289,20 @@ select * from productos;
 
 -- 20  crear un procedimiento que nos aplique un descuento del 5% a las ventas que tienen una cantidad de ventas  mayor a 40 y cuentan con trasportes
 
-drop procedure aplicar_descuentos;
+drop procedure if exists aplicar_descuentos ;
 
-
+delimiter //
 create procedure aplicar_descuentos (in idventa int )
 begin
 	declare total_pago int;
-    set total_pago= (select ventas.cantidad_stock * productos.producto_unidad +30000 -(100 *0.05)  from productos 
-    inner join ventas on ventas.id_producto = productos-id where ventascantidad_stock>40 and ventas.Trasporte=1);
-    update pagos set total = total_pago where pagos.id_ventas=idventa;
+    set total_pago= (select ventas.Producto_Cantidad * productos.Precio_Unidad +30000 -(100 *0.05) as pago_total from productos 
+    inner join ventas on ventas.id_producto = productos.id where ventas.Producto_Cantidad>40 and ventas.Transporte=1 limit 1);
+    update pagos set total = total_pago where pagos.id_venta=idventa ;
+    
 end //
 delimiter ;
+
+call aplicar_descuentos(3);
+select  * from pagos;
+
 
