@@ -7,7 +7,7 @@ Este proyecto esta estructurado paso a paso en un notion que sigue un serie de s
 
 Se dejare el link del notion a continuacion:
 
-    https://www.notion.so/Finca-productiva-Jurley-14836dadd9408071b651fcc6403746c6](https://outrageous-rondeletia-363.notion.site/Finca-productiva-Jurley-14836dadd9408071b651fcc6403746c6
+    https://outrageous-rondeletia-363.notion.site/Finca-productiva-Jurley-14836dadd9408071b651fcc6403746c6
 
 ## Creacion del proyecto
 
