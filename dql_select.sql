@@ -120,6 +120,8 @@ select inventario_produccion.Nombre, concat_ws("",proveedores.Nombre," ", Apelli
 -- 40. Mostrar el objeto con el valor mas alto.
 select * from inventario_produccion order by 4 desc;
 
+-- PRIMERAS 10 SUBCONSULTAS 
+
 -- 41. Sacar el promedio de todos los objetos referentes al cafe.
 select avg(Valor) as promedio_Cafe from (select sum(Valor_Unitario) as "Valor" from inventario_produccion where Nombre like "%Cafe%") as obtener;
 
@@ -169,19 +171,19 @@ select nombre, Precio_Unidad from productos where Precio_Unidad < 10000;
 -- 55 mostrar los productos entre 10000 y 20000
 select nombre, Precio_Unidad from productos where Precio_Unidad between  10000 and 20000 ;
   
--- 56 muestra los productos de kg
+-- 56 muestra los productos de 1 kg
   
 select nombre , contenido from  productos  where contenido = '1 kg';
   
--- 57 muestra los productos  de  250 gramos
+-- 57 muestra los productos  con contenido de  250 gramos
   
 select nombre , contenido from  productos  where contenido = '250g';
     
--- 58 muestra los productos  de  500 gramos
+-- 58 muestra los productos  con contenido de  500 gramos
     
 select nombre , contenido from  productos  where contenido = '500g';
         
--- 59 muestra los productos  de  250 ml
+-- 59 muestra los productos con contenido de 250 ml
     
 select nombre , contenido from  productos  where contenido = '250ml';
      
@@ -189,11 +191,168 @@ select nombre , contenido from  productos  where contenido = '250ml';
 
 select * from Transporte ;
 
-
 -- 61  muestre el vehiculo y la ruta del producto.
 
 select ventas.id_Producto, Modelo, Ruta from ventas inner join transporte on ventas.id_transporte = transporte.id inner join ruta on transporte.id_Ruta = ruta.id where ventas.id_transporte is null;
 
 -- 62. Todas las ventas que tengan transporte nulo.
+
 select count(id) from ventas where id_transporte is null;
+
+-- 63 cual es la ruta mas solicitada para llevar pedidos
+
+select ruta , count(id_ruta) as solicitudes from ruta  right join  Transporte on ruta.id = Transporte.id_ruta 
+inner join ventas  on Transporte.id= ventas.id_transporte group by 1 order by 2 desc limit 1 ;
+
+
+-- 64 muestre todos los cargos 
+select distinct cargo from empleado;
+
+-- 65 muestre los nombres y apellido de los  empleados que tienen cargo de Asistente de Ventas de Café
+
+select nombre1,nombre2, apellido1, apellido2 from empleado where cargo='Asistente de Ventas de Café';
+
+-- 66 muestra los nombre y apellidos de los vendedores
+
+select nombre1,nombre2, apellido1, apellido2, cargo from empleado where cargo = 'vendedor';
+
+-- 67 muestra los empleado que vivan en bucaramanga
+
+select concat_ws(' ',nombre1,' ', nombre2,' ', apellido1, ' ', apellido2 ) as nombre_completo from empleado where direccion like '%bucaramanga%';
+
+-- 68 muestra los empleados que viven en cucuta y quindio
+select concat_ws(' ',nombre1,' ', nombre2,' ', apellido1, ' ', apellido2 )as nombre_completo from empleado where direccion like '%cucuta%' ;
+
+-- 69 mostrar los datos de empleado con salarios entre 45000 y 55000 en el sueldo diario con orden de menor a mayor
+
+select * from empleado where sueldo_diario>=45000 and sueldo_diario<=55000 order by 11;
+
+-- 70 muestra los datos de empleado de aquello que su salario diario es de 45000 y ordenalos de mayor a menor
+select * from empleado where sueldo_diario<45000 order by 11 desc;
+
+-- 71 muestra los datos de lo empleado lo que su salario diario sea mayor a 55000 y ordenalos de mayor a menor
+select * from empleado where sueldo_diario>55000 order by 11 desc;
+
+-- 73 muetra los datos de empleado que tienen salario entre 40000 y 55000 que son de cucuta
+
+select * from empleado where sueldo_diario  between 40000 and 55000 and direccion like '%cucuta%';
+
+-- 73 muetra los datos de empleado que tienen salario entre 30000 y 45000 que son de bogota
+
+select * from empleado where sueldo_diario  between 30000 and 45000 and direccion like '%bogota%';
+
+-- 73 muetra los datos de empleado que tienen salario entre 30000 y 55000 que son de cucuta
+
+select * from empleado where sueldo_diario  between 30000 and 55000 and direccion like '%Cartagena%';
+
+-- 74 calcular el sueldo general de los clientes segun la cantidad de dias trabajados
+
+select concat_ws(' ',nombre1,' ', nombre2,' ', apellido1, ' ', apellido2 ) as empleado ,sueldo_diario*Dias_Trabajados as sueldo from empleado;
+
+-- 75 muestra el empleado com mayor sueldo adquirido 
+select concat_ws(' ',nombre1,' ', nombre2,' ', apellido1, ' ', apellido2 ) as empleado ,sueldo_diario*Dias_Trabajados as sueldo from empleado order by 2 desc limit 1;
+
+-- 76 muestra los nombres, apellidos y la cantidad de dias trabajados de la tabal empleados 
+
+select nombre1, nombre2, apellido1,apellido2 , dias_trabajados from empleado;
+
+-- 77  Muestre la id de los empleados que se encuentra con estado activo y donde la cantidad de dias trabajados sean igual a 5
+select empleado.id, nombre1, nombre2, apellido1, apellido2 from empleado inner join estado on estado.id = empleado.id_Estado where estado.nombre='activo' ;
+
+-- 78 Muestre la id de los empleados que se encuentra con estado activo y donde la cantidad de dias trabajados sean igual a 5
+select empleado.id, nombre1, nombre2, apellido1, apellido2 from empleado inner join estado on estado.id = empleado.id_Estado where estado.nombre='activo' ;
+
+-- 80 muetra la cantidad de empleados  con estado activo
+
+select count(id_estado) as estado_activo from empleado inner join estado on estado.id = empleado.id_Estado where estado.nombre='activo' ;
+
+-- 81 muestra la cantidad de empleados con estado inactivo
+
+select count(id_estado) as estado_inactivo from empleado inner join estado on estado.id = empleado.id_Estado where estado.nombre='inactivo' ;
+
+
+-- 82 muestre la marca y modelo de las maquina y el estado en que se encuentra 
+
+select marca ,modelo ,estado.nombre as estado from maquinaria inner join estado on maquinaria.id_estado =estado.id ;
+
+-- 83  muestre los nombres de los conductores que suelen tener como ruta de inicio la ciudad de bogota
+
+select conductor, ruta from Ruta where left(ruta,6)="Bogota";
+
+-- 84  muetras los empleado que tengan como nombre carlos
+
+select nombre1,nombre2 from empleado where left(nombre1 , 6 )='carlos' or left(nombre2 , 6 )='carlos' ;
+
+-- 85 muestre el id del proveedor y el nombre de la empresa a la que pertenece
+
+select proveedores.id, empresa.nombre from proveedores inner join empresa on proveedores.id_empresa = empresa.id;
+
+-- 86 muestre los estados que tiene cada proveedor sin que estos se repitan 
+
+select distinct estado.nombre from estado inner join proveedores on proveedores.id_estado = estado.id;
+
+-- 87 muetre los proveedores que estan inactivos y la empresa a la que pertenecen
+
+select concat_ws(" ", proveedores.nombre," ",proveedores.apellido1, " ", proveedores.apellido2," " ) as Proveedor, estado.nombre, empresa.nombre 
+from proveedores inner join estado on estado.id =proveedores.id_estado 
+inner join empresa on proveedores.id_empresa=empresa.id where estado.nombre='inactivo';
+
+-- 88 cuantos provedores pertenecen a una misma empresa ordenar del mayor a menor 
+
+select empresa.nombre, count(id_empresa) as Total_empleados from proveedores inner join empresa on proveedores.id_empresa=empresa.id group by 1;
+
+-- 89 mostrar las marca, modelo de las maquinas donde la descripcion nos indica que son tractores
+
+select marca, modelo, descripcion from maquinaria  where left(descripcion, 7) ='Tractor';
+
+
+-- ULTIMAS 10 SUBCONSULTAS 
+
+-- 90 muestre el promedio de productos que fueron suministrados por las diferentes empresas
+ select Empresa, avg(total_productos) from (select empresa.nombre as 'Empresa',count(id_empresa )as 'total_productos' from proveedores inner join empresa on empresa.id=proveedores.id_empresa group by 1) as obtener group by 1;
+
+-- 91 muestre el total de productos que tienen fecha de caducidad para el mes de enero (01)
+
+select Producto , total_productos from(select productos.nombre as 'Producto', count(inventario_producto.id) as 'total_productos' 
+from productos inner join inventario_producto  on productos.id_Inventario_producto=Inventario_producto.id 
+where month(Fecha_Caducidad )= '01' group by 1) as obtener group by 1;
+
+-- 92  muestra el promedio de ventas que se ha tenido el cliente con id 2
+select avg(cantidadventas) as promedio from (select count(v.id) as 'cantidadventas' from ventas v  where id_cliente=2) as obtener;
+
+-- 93 muestre cuales fueron los producto que en venta hubo una cantidad mayor a 30
+
+select id_venta, producto, cantidad from (select productos.nombre as 'producto', producto_cantidad as 'cantidad', ventas.id as 'id_venta'
+from productos inner join ventas  on ventas.id_producto = productos.id where ventas.Producto_Cantidad >30 ) as obtener;
+
+-- 94 calcular el valor las ganacias totales de ventas
+select sum(cantidad*valor) from ( select Producto_Cantidad as 'cantidad' , Valor_Unidad as 'valor'  from ventas ) as obtener;
+
+-- 95 calcular el total de ganancia que se tiene si se conoce que el promedio de ganacias es del 20% lo que equivale al(0.2%)
+select producto,cantidad*valor*0.2 as ganacia_por_producto from ( select productos.nombre as 'producto', Producto_Cantidad as 'cantidad' , Valor_Unidad as 'valor'  
+from ventas inner join productos on ventas.id_producto = productos.id ) as obtener;
+
+-- 96 muestre la cantidad de pagos realizados a tarvés de tranferencias 
+select  total_pagos_tranferencias from (select count(id ) as 'total_pagos_tranferencias' from pagos where forma_pago ='Transferencia') as obtener;
+
+-- 97 muestre el promedio de pagos realizados a través de efectivos y  tarjeta de credito 
+
+select avg(total_efectivo) as promedio_efectivo , avg(total_tarjeta)  as promedio_tarjeta_credito 
+from(select count(case when forma_pago='Efectivo' then 1 end) as 'total_efectivo' ,
+count(case when forma_pago='Tarjeta de Crédito' then 1 end) as 'total_tarjeta' from pagos )as obtener;
+
+
+-- 98 calcule la suma del total de pago realizados
+
+select sum(total_pagos) as total_pagos from(select total as 'total_pagos' from pagos) as obtener; 
+
+-- 99  muestra el total de pagos que se realizaron en el mes de noviembre(11)
+
+select count(id) total_fechas_mes_noviembre from (select id as 'id'from pagos where month (Fecha_Pago)='11')as obtener;
+
+-- 100  nombre del producto mas solicitados a la hora de los pedidos
+
+select producto,solicitudes from(select productos.nombre as 'producto' , count(id_producto) as 'solicitudes' from productos inner join pedido on productos.id =pedido.id_Producto  group by 1  order by 2 desc limit 3 ) as obtener ;
+
+
 
