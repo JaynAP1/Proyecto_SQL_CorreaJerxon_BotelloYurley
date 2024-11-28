@@ -74,6 +74,10 @@ Control de Acceso y Roles de Usuario, Definir 5 tipos de usuarios para el sistem
 Cada usuario debe tener un conjunto de privilegios que se ajuste a su rol dentro de la operación de la finca. Por ejemplo, un administrador con acceso total, un vendedor con acceso limitado a ventas e inventario, un contador que pueda manejar los reportes financieros, etc.
 Los permisos deben ser implementados de manera precisa para evitar acceso no autorizado y garantizar la seguridad de los datos.
 
+## Estructura de la Base de Datos
+
+La base de datos se encuentra constituida por 18 tablas que tienen relaciones de una a una , de una a mucha que son la mayoria y una que fue de muchos a muchos que cuenta con un rompe llamado pedido en el documento hay mas especficacion de cada una.
+
 ## Consultas
 
 ```sql
