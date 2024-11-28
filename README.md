@@ -1013,7 +1013,7 @@ end
 
 Select TotalMantenimientos(1);
 
--- 19. Mostrar la cantidad de Cosecha de la finca deseada.
+-- 20. Mostrar la cantidad de Cosecha de la finca deseada.
 Delimiter //
 Create function TotalCosecha (Finca_id int)
 returns int deterministic
@@ -1198,7 +1198,8 @@ delimiter ;
 select * from productos;
 
 
--- 14 aplicar en un evento un procedimiento de los anteriores que se ejecute una vez.En un dia especifico.
+-- 14 aplicar en un evento un procedimiento de los anteriores ( crear un procedimiento que nos aplique un descuento del 5% a las ventas que tienen una cantidad de ventas  mayor a 40 y cuentan con trasportes) que se ejecute una vez.En un dia especifico.
+
 drop event if exists descuento_procedures;
 delimiter //
 create event descuento_procedures 
@@ -1210,7 +1211,7 @@ end //
 delimiter ;
 
 select  * from pagos;
--- 15  aplicar un evento para uno de los procedimientos anteriores que se ejecute cada dia
+-- 15  aplicar un evento para uno de los procedimientos( crear un procedimiento que cambie el estado de los productos entre los estados agotados o en venta) anteriores que se ejecute cada dia
 
 drop event if exists descuento_procedures;
 delimiter //
