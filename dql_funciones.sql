@@ -103,7 +103,7 @@ begin
     return promedio;
 end //
 delimiter ; 
-drop function promedio_ventas;
+
 select promedio_ventas();
 
 -- 8. muestra el producto con mayor ventas realizadas
@@ -119,7 +119,7 @@ begin
     return producto;
 end // 
 delimiter ; 
-drop function producto_mas_vendido;
+
 select producto_mas_vendido();
 
 -- 9. muestra el nombre del cliente que mas compra a realizado
@@ -135,7 +135,7 @@ begin
     return total;
 end // 
 delimiter ; 
-drop function cliente_compras;
+
 select nombre1 ,apellido1, apellido2, cliente_compras() as 'id' from clientes where clientes.id = id limit 1;
 
 
@@ -152,7 +152,7 @@ begin
     return ventas;
 end // 
 delimiter ; 
-drop function empleados_ventas;
+
 select nombre1 ,apellido1, apellido2, empleados_ventas() as 'id', cargo from Empleado where Empleado.id = id limit 1 ;
 
 -- 11. Listar la cantidad de empleados en cada estado.

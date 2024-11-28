@@ -57,18 +57,18 @@ inner join ventas on productos.id =ventas.id_Producto )as obtener limit 1) where
  
  update productos  set id_estado=8 where id=1 ;
  
- -- 5. crear un trigger que actualice el estado de clientes  y los datos viejos sean añadidos al historial
+ -- 5. crear un trigger que actualice la direccion de los clientes  y los datos viejos sean añadidos al historial
  
  delimiter //
- create trigger actualizar_estado_cliente
+ create trigger actualizar_direccion_clientes
  after update on clientes
  for each row 
  begin 
-  insert into historial (tipo,descripcion,id_finca) values ('Estado_anterior' , old.id_estado,1);
+  insert into historial (tipo,descripcion,id_finca) values ('Direccion_anterior', old.direccion,1);
  end //
  delimiter ;
  
- update clientes  set id_estado= 4 where id=1 ;
+ update clientes  set direccion='calle 4 bogota' where id=1 ;
  
  
  -- 6. crear un trigger que elimine datos innecesarios del historial segun la id
