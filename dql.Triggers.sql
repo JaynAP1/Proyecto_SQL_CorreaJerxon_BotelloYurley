@@ -1,8 +1,9 @@
 use finca_jurley;
 
--- 1. crea un trigger que actualice la cantidad de stock  
+-- 1. crea un trigger que actualice la cantidad de stock  dependiendo de las ventas que se han llevado a cabo por cada producto
 
-drop trigger actualizar_stock2;
+drop trigger if exists actualizar_stock2;
+
 delimiter //
 create trigger actualizar_stock2
 before  update on inventario_producto
@@ -18,9 +19,11 @@ inner join ventas on productos.id =ventas.id_Producto )as obtener limit 1) where
 
 
 -- 2 crear un trigger que actualice el estado de la maquinaria y los datos viejos sean añadidos al historial
- drop trigger actualizar_estado;
+
+ drop trigger if exists actualizar_estad_maqui;
+ 
  delimiter //
- create trigger actualizar_estado 
+ create trigger actualizar_estad_maqui 
  before update on  maquinaria 
  for each row 
  begin
@@ -32,6 +35,8 @@ inner join ventas on productos.id =ventas.id_Producto )as obtener limit 1) where
  
  
  -- 3  crear un trigger que actualice el estado de empleado y los datos viejos sean añadidos al historial
+ 
+ drop trigger if exists actualizar_estado_empleados;
  
  delimiter //
  create trigger actualizar_estado_empleados
@@ -47,8 +52,10 @@ inner join ventas on productos.id =ventas.id_Producto )as obtener limit 1) where
  
  -- 4 crear un trigger que actualice el estado de producto y los datos viejos sean añadidos al historial
  
-  delimiter //
- create trigger actualizar_estado_productos
+ drop trigger  if exists actualizar_estado_productos;
+ 
+ delimiter //
+ create trigger  actualizar_estado_productos
  after update on productos
  for each row 
  begin 
@@ -56,11 +63,13 @@ inner join ventas on productos.id =ventas.id_Producto )as obtener limit 1) where
  end //
  delimiter ;
  
- update productos  set id_estado= 7 where id=1 ;
+ update productos  set id_estado=8 where id=1 ;
  
  -- 5 crear un trigger que actualice el estado de clientes  y los datos viejos sean añadidos al historial
  
-   delimiter //
+ drop trigger if exists actualizar_estado_cliente;
+ 
+ delimiter //
  create trigger actualizar_estado_cliente
  after update on clientes
  for each row 
@@ -72,21 +81,23 @@ inner join ventas on productos.id =ventas.id_Producto )as obtener limit 1) where
  update clientes  set id_estado= 4 where id=1 ;
  
  
- -- 6   crear un trigger elimine datos innecesarios de historial segun la id
+ -- 6   crear un trigger que elimine datos innecesarios del historial segun la id
  
-   delimiter //
- create trigger actualizar_ruta
- after update on transporte
+ drop trigger if exists eliminar_dato_historial;
+ 
+ delimiter //
+ create trigger eliminar_dato_historial
+ after delete on historial
  for each row 
  begin 
-  insert into historial (tipo,descripcion,id_finca) values ('Estado_anterior' , old.id_ruta,1);
+  delete from historial  where id=58;
  end //
  delimiter ;
  
- update transporte set id_ruta= 4 where id=1 ;
+ -- 7 crear un trigger que actualice el cargo de los empleados segun la id
  
- -- 7 crear un trigger que actualice el estado del producto si la cantidad  de stock  es igual a 0
- drop trigger
+ drop trigger if exists actualizar_cargo;
+ 
  delimiter //
  create trigger actualizar_cargo
  after update on empleado
@@ -98,8 +109,10 @@ inner join ventas on productos.id =ventas.id_Producto )as obtener limit 1) where
  
  update empleado set cargo= 'vendedor' where id=2 ;
  
- -- 8 actualizar los dias de trabajo
+ -- 8  crea un trigger que actualize  los dias de trabajo
  
+  drop trigger if exists actualizar_dias;
+  
   delimiter //
  create trigger actualizar_dias
  after update on empleado
@@ -111,23 +124,28 @@ inner join ventas on productos.id =ventas.id_Producto )as obtener limit 1) where
  
  update empleado set Dias_Trabajados= 4 where id=2 ;
  
+
+ -- 9 crear un trigger que actualice el estado del producto  ha(agotado) si la cantidad  de stock  es igual a 0.
  
- -- 9 crear un trigger que actualice el sueldo diario de los empleados  y los datos viejos sean añadidos al historial
+ drop trigger estados_agotados;
  
-   delimiter //
- create trigger actualizar_sueldo_diario
- after update on empleado
+ delimiter //
+ create trigger estados_agotados 
+ before update on productos
  for each row 
  begin 
-  insert into historial (tipo,descripcion,id_finca) values ('dias_trabajados' , old.Sueldo_Diario ,1);
+	if (select count(id) from Inventario_Producto where Cantidad_Stock=0 ) = 1 then 
+    update productos set id_estado=7 where id=2;
+    end if;
  end //
  delimiter ;
- 
- update empleado set Sueldo_Diario= 45000 where id=2 ;
- 
+
+
  -- 10  crear un trigger que actualice el valor de la unidad de cada venta  y los datos viejos sean añadidos al historial
-  drop trigger actualizar_valor_unidad;
-    delimiter //
+ 
+  drop trigger if exists actualizar_valor_unidad;
+  
+ delimiter //
  create trigger actualizar_valor_unidad
  after update on ventas
  for each row 
@@ -136,4 +154,7 @@ inner join ventas on productos.id =ventas.id_Producto )as obtener limit 1) where
  end //
  delimiter ;
  
- update ventas set Valor_Unidad= 7990000 where id=2 ;
+ update ventas set Valor_Unidad= 15000 where id=2 ;
+
+ 
+  -- 11 
