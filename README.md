@@ -23,6 +23,14 @@ Para poder usar el proyecto debemos tener distintas herramientas tales como
 
     https://github.com/JaynAP1/Proyecto_SQL_CorreaJerxon_BotelloYurley.git
 
+Para tener el proyecto clonar el repositorio con el link anterior.
+
+## Explicacion del proyecto
+A continuacion se anexara un video explicando la funcionalidad del proyecto junto con 
+las funcionalidades de la base de datos.
+
+	https://drive.google.com/file/d/1cRDNmYS9HyAkCTe1rrve_XzJsfR-PMTi/view?usp=sharing
+
 ### Modelado de la Base de Datos:
 
 El modelo debe incluir las entidades necesarias para gestionar todos los aspectos de una finca de producción agrícola que involucra múltiples productos.
