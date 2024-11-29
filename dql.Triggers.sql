@@ -149,22 +149,8 @@ inner join ventas on productos.id =ventas.id_Producto )as obtener limit 1) where
   
   Insert into Estado(Nombre) values ("En proceso");	
   
-  -- 12. Crea un trigger que cuando elimines un dato de la tabla empleado se envie hacia el historial.
-  
-drop trigger Eliminar_Ruta;
 
-Delimiter //
-Create trigger Eliminar_Ruta
-before delete on Ruta
-for each row
-begin
-	insert into historial (tipo,descripcion,id_finca) values ('Eliminado' , old.Ruta ,1);
-end //
-Delimiter ;
-
-delete from Ruta where id = 17;
-
--- 13. Crea un trigger que cuando una ruta se actualize su valor viejo sea enviado al historial.
+-- 12. Crea un trigger que cuando una ruta se actualize su valor viejo sea enviado al historial.
 
 Delimiter //
 Create trigger Actualizar_Ruta
@@ -177,7 +163,7 @@ Delimiter ;
 
 update ruta set Ruta = "Bogota - Caracas" where id = 17;
 
--- 14. Crea una trigger que cuando se actualize un proveedor envie su nombre viejo al historial.
+-- 13. Crea una trigger que cuando se actualize un proveedor envie su nombre viejo al historial.
 
 Delimiter //
 Create trigger Actualizar_proveedor
@@ -190,7 +176,7 @@ Delimiter ;
 
 update Proveedores set Nombre = "Jair" where id = 1;
    
--- 15. Crear un trigger que cuando se actualize un producto envie su nombre al historial.
+-- 14. Crear un trigger que cuando se actualize un producto envie su nombre al historial.
 Delimiter //
 Create trigger productos_Nombre
 before update on productos
@@ -202,7 +188,7 @@ Delimiter ;
 
 update productos set precio_unidad = 100 where id = 1;
 
--- 16. Crear un trigger que cuando se actualize la finca envie el nombre de la finca que fue actualizada al historial.
+-- 15. Crear un trigger que cuando se actualize la finca envie el nombre de la finca que fue actualizada al historial.
 Delimiter //
 Create trigger Finca_Nombre
 before update on Finca
@@ -215,7 +201,6 @@ Delimiter ;
 update Finca set Nombre = "SuperFinca" where id = 1;
   
 -- 16. Crear un trigger que al eliminar una ciudad envie el nombre de la ciudad eliminada al historial.
-drop trigger Eliminar_ciudad;
 
 Delimiter //
 Create trigger Eliminar_Ciudad
