@@ -19,7 +19,7 @@ grant select on Finca_Jurley.Productos to 'cliente'@'%host';
 show grants for 'cliente'@'%host';
 
 -- creacion de usuario empleado. sus permisos son(lectura en prooducto,pedido,inventario_productos y inventario produccion )
-create user 'empleado'@'%host'identified by 'cliente123';
+create user 'empleado'@'%host'identified by 'empleado23';
 grant select on Finca_Jurley.Productos to 'empleado'@'%host';
 grant select on Finca_Jurley.pedido to 'empleado'@'%host';
 grant select, update on Finca_Jurley.Inventario_Producto to 'empleado'@'%host';
